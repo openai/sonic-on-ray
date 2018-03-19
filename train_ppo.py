@@ -4,7 +4,7 @@ from __future__ import print_function
 
 import common
 import ray
-from ray.tune.registry import get_registry, register_env
+from ray.tune.registry import register_env
 from ray.rllib import ppo
 
 
@@ -33,7 +33,7 @@ config.update({
   }
 })
 
-alg = ppo.PPOAgent(config=config, env=env_name, registry=get_registry())
+alg = ppo.PPOAgent(config=config, env=env_name)
 
 for i in range(1000):
     result = alg.train()
