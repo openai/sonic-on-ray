@@ -18,7 +18,7 @@ run_experiments({
     "run": "PPO",
     "env": "sonic_env",
     "resources": {
-      "gpu": 1,  # note, keep this in sync with 'devices' config value
+      "gpu": 2,  # note, keep this in sync with 'devices' config value
       "cpu": lambda spec: spec.config.num_workers,  # one cpu per worker
     },
     "config": {
@@ -30,13 +30,13 @@ run_experiments({
        "min_steps_per_task": 100,
        "num_workers": 4,
        "gamma": 0.99,
-       "lambda": 0.95,
-       "clip_param": 0.1,
-       "num_sgd_iter": 30,
+       "lambda": grid_search([0,93, 0.95, 0.97, 0.99]),
+       "clip_param": grid_search([0.1, 0.2]),
+       "num_sgd_iter": grid_search([20, 30]),
        "sgd_batchsize": 4096,
        "use_gae": True,
        "horizon": 4000,
-       "devices": ["/gpu:0"],
+       "devices": ["/gpu:0", "/gpu:1"],
        "tf_session_args": {
          "gpu_options": {"allow_growth": True}
        },
