@@ -14,7 +14,7 @@ env_name = "sonic_env"
 # However, you have to obtain the ROM yourself,
 # see https://github.com/openai/retro/blob/master/README.md.
 # Therefore we are including an open source ROM which can be tried out like this:
-register_env(env_name, lambda config: common.make(game='Airstriker-Genesis'))
+register_env(env_name, lambda config: common.make(game='Airstriker-Genesis', state="Level1"))
 
 ray.init()
 
