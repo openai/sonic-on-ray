@@ -9,7 +9,12 @@ from ray.rllib import ppo
 
 
 env_name = "sonic_env"
-register_env(env_name, lambda config: common.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1'))
+# Note that the hyperparameters have been tuned for sonic, which can be used like so:
+# register_env(env_name, lambda config: common.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1'))
+# However, you have to obtain the ROM yourself,
+# see https://github.com/openai/retro/blob/master/README.md.
+# Therefore we are including an open source ROM which can be tried out like this:
+register_env(env_name, lambda config: common.make(game='Airstriker-Genesis'))
 
 ray.init()
 
