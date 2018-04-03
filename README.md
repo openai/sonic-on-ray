@@ -27,11 +27,13 @@ cd gym-retro
 pip install -e .
 ```
 
-Now clone this repo:
+Now clone this repo and install it:
 
 ```
 cd ~
 git clone git@github.com:openai/sonic-on-ray.git
+cd sonic-on-ray
+pip install -e .
 ```
 
 You can then run the training with

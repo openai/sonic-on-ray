@@ -2,19 +2,19 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from common import make
 import ray
 from ray.tune import grid_search, run_experiments
 from ray.tune.registry import register_env
+import sonic_on_ray
 
 
 env_name = "sonic_env"
 # Note that the hyperparameters have been tuned for sonic, which can be used like so:
-# register_env(env_name, lambda config: common.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1'))
+# register_env(env_name, lambda config: sonic_on_ray.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1'))
 # However, you have to obtain the ROM yourself,
 # see https://github.com/openai/retro/blob/master/README.md.
 # Therefore we are including an open source ROM which can be tried out like this:
-register_env(env_name, lambda config: make(game='Airstriker-Genesis', state="Level1"))
+register_env(env_name, lambda config: sonic_on_ray.make(game='Airstriker-Genesis', state="Level1"))
 
 ray.init()
 

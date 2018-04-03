@@ -9,7 +9,7 @@ import json
 import os
 import pickle
 
-import common
+import sonic_on_ray
 import gym
 import ray
 from ray.rllib.agent import get_agent_class
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     ray.init()
 
     env_name = "sonic_env"
-    register_env(env_name, lambda config: common.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1'))
+    register_env(env_name, lambda config: sonic_on_ray.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1'))
 
     cls = get_agent_class(args.run)
     agent = cls(env=env_name, config=args.config)
