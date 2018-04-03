@@ -5,7 +5,8 @@ instructions on how to get the training running on EC2.
 
 ## Running training on a single node
 
-Start a p2.8xlarge with the Deep Learning AMI (Ubuntu).
+Start a p2.8xlarge with the Deep Learning AMI (Ubuntu). In us-west-2, this is
+ami-d2c759aa.
 
 Activate the TensorFlow environment with
 
@@ -22,7 +23,7 @@ pip install ray opencv-python
 Next we need to install the gym retro environment. Run
 
 ```
-git clone --recursive git@github.com:openai/retro.git gym-retro
+git clone --recursive https://github.com/openai/retro.git gym-retro
 cd gym-retro
 pip install -e .
 ```
@@ -31,7 +32,7 @@ Now clone this repo and install it:
 
 ```
 cd ~
-git clone git@github.com:openai/sonic-on-ray.git
+git clone https://github.com/openai/sonic-on-ray.git
 cd sonic-on-ray
 pip install -e .
 ```
@@ -39,7 +40,7 @@ pip install -e .
 You can then run the training with
 
 ```
-cd sonic-on-ray
+cd ~/sonic-on-ray
 python train_ppo.py
 ```
 

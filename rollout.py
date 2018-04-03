@@ -10,67 +10,63 @@ import os
 import pickle
 
 import sonic_on_ray
-import gym
 import ray
 from ray.rllib.agent import get_agent_class
-from ray.rllib.dqn.common.wrappers import wrap_dqn
-from ray.rllib.models import ModelCatalog
-from ray.tune.registry import get_registry, register_env
+from ray.tune.registry import register_env
 
-EXAMPLE_USAGE = """
-example usage:
-    ./rollout.py /tmp/ray/checkpoint_dir/checkpoint-0 --run DQN """
-"""--steps 1000000 --out rollouts.pkl
-"""
+EXAMPLE_USAGE = ('example usage:\n'
+                 './rollout.py /tmp/ray/checkpoint_dir/checkpoint-0 --run=DQN '
+                 '--steps=1000000 --out=rollouts.pkl')
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
-    description="Roll out a reinforcement learning agent "
-                "given a checkpoint.", epilog=EXAMPLE_USAGE)
+    description='Roll out a reinforcement learning agent '
+                'given a checkpoint.', epilog=EXAMPLE_USAGE)
 
 parser.add_argument(
-    "checkpoint", type=str, help="Checkpoint from which to roll out.")
-required_named = parser.add_argument_group("required named arguments")
+    'checkpoint', type=str, help='Checkpoint from which to roll out.')
+required_named = parser.add_argument_group('required named arguments')
 required_named.add_argument(
-    "--run", type=str, required=True,
-    help="The algorithm or model to train. This may refer to the name "
-         "of a built-on algorithm (e.g. RLLib's DQN or PPO), or a "
-         "user-defined trainable function or class registered in the "
-         "tune registry.")
+    '--run', type=str, required=True,
+    help='The algorithm or model to train. This may refer to the name '
+         'of a built-on algorithm (e.g. RLLib\'s DQN or PPO), or a '
+         'user-defined trainable function or class registered in the '
+         'tune registry.')
 parser.add_argument(
-    "--no-render", default=False, action="store_const", const=True,
-    help="Surpress rendering of the environment.")
+    '--no-render', default=False, action='store_const', const=True,
+    help='Surpress rendering of the environment.')
 parser.add_argument(
-    "--steps", default=None, help="Number of steps to roll out.")
+    '--steps', default=None, help='Number of steps to roll out.')
 parser.add_argument(
-    "--out", default=None, help="Output filename.")
+    '--out', default=None, help='Output filename.')
 parser.add_argument(
-    "--config", default="{}", type=json.loads,
-    help="Algorithm-specific configuration (e.g. env, hyperparams). "
-         "Surpresses loading of configuration from checkpoint.")
+    '--config', default='{}', type=json.loads,
+    help='Algorithm-specific configuration (e.g. env, hyperparams). '
+         'Surpresses loading of configuration from checkpoint.')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     args = parser.parse_args()
 
     if not args.config:
         # Load configuration from file
         config_dir = os.path.dirname(args.checkpoint)
-        config_path = os.path.join(config_dir, "params.json")
+        config_path = os.path.join(config_dir, 'params.json')
         with open(config_path) as f:
             args.config = json.load(f)
 
     ray.init()
 
-    env_name = "sonic_env"
-    register_env(env_name, lambda config: sonic_on_ray.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1'))
+    env_name = 'sonic_env'
+    register_env(env_name, lambda config: sonic_on_ray.make(
+                               game='SonicTheHedgehog-Genesis',
+                               state='GreenHillZone.Act1'))
 
     cls = get_agent_class(args.run)
     agent = cls(env=env_name, config=args.config)
 
-
     num_steps = int(args.steps)
 
-    # This currently only works with PPO
+    # This currently only works with PPO.
     env = agent.local_evaluator.env
 
     if args.out is not None:
@@ -94,6 +90,6 @@ if __name__ == "__main__":
             state = next_state
         if args.out is not None:
             rollouts.append(rollout)
-        print("Episode reward", reward_total)
+        print('Episode reward', reward_total)
     if args.out is not None:
-        pickle.dump(rollouts, open(args.out, "wb"))
+        pickle.dump(rollouts, open(args.out, 'wb'))

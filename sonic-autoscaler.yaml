@@ -73,9 +73,9 @@ setup_commands:
     # below with a git checkout <your_sha> (and possibly a recompile).
     - echo 'export PATH="$HOME/anaconda3/envs/tensorflow_p36/bin:$PATH"' >> ~/.bashrc
     - pip install ray opencv-python
-    - GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone --recursive git@github.com:openai/retro.git gym-retro
+    - GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone --recursive https://github.com/openai/retro.git gym-retro
     - cd gym-retro; pip install -e .
-    - GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone git@github.com:openai/sonic-on-ray.git
+    - GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone https://github.com/openai/sonic-on-ray.git
 
 # Custom commands that will be run on the head node after common setup.
 head_setup_commands:
