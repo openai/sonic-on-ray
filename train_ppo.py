@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import common
+from common import make
 import ray
 from ray.tune.registry import register_env
 from ray.rllib import ppo
@@ -14,7 +14,7 @@ env_name = "sonic_env"
 # However, you have to obtain the ROM yourself,
 # see https://github.com/openai/retro/blob/master/README.md.
 # Therefore we are including an open source ROM which can be tried out like this:
-register_env(env_name, lambda config: common.make(game='Airstriker-Genesis', state="Level1"))
+register_env(env_name, lambda config: make(game='Airstriker-Genesis', state="Level1"))
 
 ray.init()
 

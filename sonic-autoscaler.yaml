@@ -52,11 +52,11 @@ worker_nodes:
     ImageId: ami-bc09d9c1  # Amazon Deep Learning AMI (Ubuntu)
 
     # Run workers on spot by default. Comment this out to use on-demand.
-    InstanceMarketOptions:
-        MarketType: spot
-        # Additional options can be found in the boto docs, e.g.
-        #   SpotOptions:
-        #       MaxPrice: MAX_HOURLY_PRICE
+    # InstanceMarketOptions:
+    #     MarketType: spot
+    #     # Additional options can be found in the boto docs, e.g.
+    #     #   SpotOptions:
+    #     #       MaxPrice: MAX_HOURLY_PRICE
 
     # Additional options in the boto docs.
 
