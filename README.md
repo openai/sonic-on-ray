@@ -5,7 +5,8 @@ instructions on how to get the training running on EC2.
 
 ## Running training on a single node
 
-Start a p2.8xlarge with the Deep Learning AMI (Ubuntu).
+Start a p2.8xlarge with the Deep Learning AMI (Ubuntu). In us-west-2, this is
+ami-d2c759aa.
 
 Activate the TensorFlow environment with
 
@@ -39,7 +40,7 @@ pip install -e .
 You can then run the training with
 
 ```
-cd sonic-on-ray
+cd ~/sonic-on-ray
 python train_ppo.py
 ```
 
@@ -79,7 +80,7 @@ from the node you wish to add. You can connect a driver to the cluster from Pyth
 
 To login to the cluster, run:
 
-      ssh -i /Users/pcmoritz/.ssh/ray-autoscaler_us-east-1.pem ubuntu@54.152.27.84
+      ssh -i ~/.ssh/ray-autoscaler_us-east-1.pem ubuntu@54.152.27.84
 ```
 
 You can now start the hyperparameter search by sshing into the cluster, running

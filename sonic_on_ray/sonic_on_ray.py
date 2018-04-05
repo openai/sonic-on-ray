@@ -12,11 +12,13 @@ import numpy as np
 
 class LazyFrames(object):
     def __init__(self, frames):
-        """This object ensures that common frames between the observations are only stored once.
-        It exists purely to optimize memory usage which can be huge for DQN's 1M frames replay
-        buffers.
-        This object should only be converted to numpy array before being passed to the model.
-        You'd not believe how complex the previous solution was."""
+        """
+        This object ensures that common frames between the observations are
+        only stored once. It exists purely to optimize memory usage which can
+        be huge for DQN's 1M frames replay buffers. This object should only be
+        converted to numpy array before being passed to the model. You'd not
+        believe how complex the previous solution was.
+        """
         self._frames = frames
         self._out = None
 
@@ -41,8 +43,10 @@ class LazyFrames(object):
 
 class FrameStack(gym.Wrapper):
     def __init__(self, env, k):
-        """Stack k last frames.
-        Returns lazy array, which is much more memory efficient.
+        """Stack the k last frames.
+
+        Returns a lazy array, which is much more memory efficient.
+
         See Also
         --------
         baselines.common.atari_wrappers.LazyFrames
@@ -51,7 +55,9 @@ class FrameStack(gym.Wrapper):
         self.k = k
         self.frames = deque([], maxlen=k)
         shp = env.observation_space.shape
-        self.observation_space = spaces.Box(low=0, high=255, shape=(shp[0], shp[1], shp[2] * k), dtype=np.uint8)
+        self.observation_space = spaces.Box(low=0, high=255,
+                                            shape=(shp[0], shp[1], shp[2] * k),
+                                            dtype=np.uint8)
 
     def reset(self):
         ob = self.env.reset()
@@ -76,11 +82,13 @@ class WarpFrame(gym.ObservationWrapper):
         self.width = 80
         self.height = 80
         self.observation_space = spaces.Box(low=0, high=255,
-            shape=(self.height, self.width, 1), dtype=np.uint8)
+                                            shape=(self.height, self.width, 1),
+                                            dtype=np.uint8)
 
     def observation(self, frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-        frame = cv2.resize(frame, (self.width, self.height), interpolation=cv2.INTER_AREA)
+        frame = cv2.resize(frame, (self.width, self.height),
+                           interpolation=cv2.INTER_AREA)
         return frame[:, :, None]
 
 
@@ -91,9 +99,10 @@ class SonicDiscretizer(gym.ActionWrapper):
     """
     def __init__(self, env):
         super(SonicDiscretizer, self).__init__(env)
-        buttons = ["B", "A", "MODE", "START", "UP", "DOWN", "LEFT", "RIGHT", "C", "Y", "X", "Z"]
-        actions = [['LEFT'], ['RIGHT'], ['LEFT', 'DOWN'], ['RIGHT', 'DOWN'], ['DOWN'],
-                   ['DOWN', 'B'], ['B']]
+        buttons = ["B", "A", "MODE", "START", "UP", "DOWN", "LEFT", "RIGHT",
+                   "C", "Y", "X", "Z"]
+        actions = [['LEFT'], ['RIGHT'], ['LEFT', 'DOWN'], ['RIGHT', 'DOWN'],
+                   ['DOWN'], ['DOWN', 'B'], ['B']]
         self._actions = []
         for action in actions:
             arr = np.array([False] * 12)
@@ -102,15 +111,14 @@ class SonicDiscretizer(gym.ActionWrapper):
             self._actions.append(arr)
         self.action_space = gym.spaces.Discrete(len(self._actions))
 
-    def action(self, a): # pylint: disable=W0221
+    def action(self, a):
         return self._actions[a].copy()
 
 
 class RewardScaler(gym.RewardWrapper):
     """
-    Bring rewards to a reasonable scale for PPO.
-    This is incredibly important and effects performance
-    drastically.
+    Bring rewards to a reasonable scale for PPO. This is incredibly important
+    and effects performance a lot.
     """
     def reward(self, reward):
         return reward * 0.01
