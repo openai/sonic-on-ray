@@ -23,7 +23,7 @@ pip install ray opencv-python
 Next we need to install the gym retro environment. Run
 
 ```
-git clone --recursive https://github.com/openai/retro.git gym-retro
+git clone --recursive git@github.com:openai/retro.git gym-retro
 cd gym-retro
 pip install -e .
 ```
@@ -32,7 +32,7 @@ Now clone this repo and install it:
 
 ```
 cd ~
-git clone https://github.com/openai/sonic-on-ray.git
+git clone git@github.com:openai/sonic-on-ray.git
 cd sonic-on-ray
 pip install -e .
 ```
@@ -80,7 +80,7 @@ from the node you wish to add. You can connect a driver to the cluster from Pyth
 
 To login to the cluster, run:
 
-      ssh -i /Users/pcmoritz/.ssh/ray-autoscaler_us-east-1.pem ubuntu@54.152.27.84
+      ssh -i ~/.ssh/ray-autoscaler_us-east-1.pem ubuntu@54.152.27.84
 ```
 
 You can now start the hyperparameter search by sshing into the cluster, running
