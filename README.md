@@ -1,3 +1,5 @@
+**Status:** Archive (code is provided as-is, no updates expected)
+
 # Sonic on Ray
 
 This file describes how to use Sonic with Ray and RLLib. We include
